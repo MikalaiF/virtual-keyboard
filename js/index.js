@@ -1,8 +1,8 @@
 const letters = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'delete'],
   ['tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', String.fromCharCode(92)],
-  ['capslock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', String.fromCharCode(39), 'return'],
+  ['caps lock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', String.fromCharCode(39), 'return'],
   ['shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', String.fromCharCode(9650), 'shiftR'],
-  ['fn', String.fromCharCode(8743), '⌥', '⌘', ' ', '⌘', String.fromCharCode(9664), String.fromCharCode(9660), String.fromCharCode(9654), '⌥']];
+  ['fn', String.fromCharCode(8743), '⌥', '⌘', String.fromCharCode(160), '⌘', String.fromCharCode(9664), String.fromCharCode(9660), String.fromCharCode(9654), '⌥']];
 
 function createWrapper() {
   const wrapper = document.createElement('div');
@@ -30,9 +30,7 @@ function createTexArea() {
 }
 
 container1.appendChild(createTexArea());
-// eslint-disable-next-line no-unused-vars
 const containerTextArea = document.querySelector('.containerTextArea');
-
 // ----------------------containerTextArea------------^
 
 function createDiv() {
@@ -47,81 +45,137 @@ const containerKeyBoard = document.querySelector('.containerKeyBoard');
 // ----------------------containerKeyBoard------------^
 
 // eslint-disable-next-line no-unused-vars
-function createLetter() {
+function createLetter(l) {
   const span = document.createElement('span');
+  span.className = 'letter';
+  span.dataset.id = l;
   return span;
 }
 // ----------------------Letter------------^
 
 // eslint-disable-next-line no-unused-vars
-function createLine(l) {
+function createLine() {
   const line = document.createElement('div');
-  line.className = `line${l}`;
+  line.className = 'line';
   return line;
 }
 // ----------------------Line------------^
 
 (function createKeyboard() {
-  let out = '';
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < letters.length; i++) {
+    containerKeyBoard.appendChild(createLine());
     // eslint-disable-next-line no-plusplus
     for (let j = 0; j < letters[i].length; j++) {
-      if (letters[i][j] === 'tab' || letters[i][j] === 'capslock' || letters[i][j] === 'shift' || letters[i][j] === 'fn') {
-        out += '<div class = "clearfix"></div>';
+      const letter = containerKeyBoard.childNodes[i].appendChild(createLetter(letters[i][j]));
+      letter.innerHTML = letters[i][j];
+      if (letters[i][j] === String.fromCharCode(9650)) {
+        letter.classList.add('ArrowUp');
+        letter.dataset.delete = 'ArrowUp';
       }
-      out += `<div class = " letter" data-id = "${letters[i][j]}">${letters[i][j]}</div>`;
-      const line = document.querySelector('.containerKeyBoard');
-      
-      line.innerHTML = out;
-      console.log(document.querySelector('[data-id]'));
+      if (letters[i][j] === String.fromCharCode(9664)) {
+        letter.classList.add('ArrowLeft');
+        letter.dataset.delete = 'ArrowLeft';
+      }
+      if (letters[i][j] === String.fromCharCode(9660)) {
+        letter.classList.add('ArrowDown');
+        letter.dataset.delete = 'ArrowDown';
+      }
+      if (letters[i][j] === String.fromCharCode(9654)) {
+        letter.classList.add('ArrowRight');
+        letter.dataset.delete = 'ArrowRight';
+      }
+      if (letters[i][j] === 'delete') {
+        letter.classList.add('delete');
+        letter.dataset.delete = 'Backspace';
+      }
+      if (letters[i][j] === 'tab') {
+        letter.classList.add('tab');
+        letter.dataset.delete = 'Tab';
+      }
+      if (letters[i][j] === 'caps lock') {
+        letter.classList.add('caps_lock');
+        letter.dataset.delete = 'CapsLock';
+      }
+      if (letters[i][j] === 'shift') {
+        letter.classList.add('shift');
+        letter.dataset.delete = 'Shift';
+      }
+      if (letters[i][j] === 'shiftR') {
+        letter.classList.add('shiftR');
+        letter.dataset.delete = 'Shift';
+        letter.dataset.code = 'ShiftRight';
+      }
+      if (letters[i][j] === String.fromCharCode(160)) {
+        letter.classList.add('space');
+        letter.dataset.delete = ' ';
+      }
+      if (letters[i][j] === 'return') {
+        letter.classList.add('return');
+        letter.dataset.delete = 'Enter';
+      }
+      if (letters[i][j] === '⌘') {
+        letter.classList.add('command');
+        letter.dataset.delete = 'Meta';
+      }
+      if (letters[i][j] === String.fromCharCode(8743)) {
+        letter.classList.add('control');
+        letter.dataset.delete = 'Control';
+      }
+      if (letters[i][j] === '⌥') {
+        letter.classList.add('option');
+        letter.dataset.delete = 'Alt';
+      }
+      if (letters[i][j] === 'fn') {
+        letter.classList.add('fn');
+        letter.dataset.delete = 'fn';
+      }
     }
   }
 }());
 
 // ----------------------Create------------^
 
-//document.onkeydown = function (event) {
-//  document.querySelectorAll('.containerKeyBoard .letter').forEach((el) => {
-//    el.classList.remove('active');
-//  });
-//  document.querySelector(`.containerKeyBoard .letter[data="${event.key}"]`).classList.add('active');
-//};
-
-//document.querySelectorAll('.containerKeyBoard .letter').forEach((el) => {
-//  // eslint-disable-next-line no-param-reassign
-//  el.onclick = function (event) {
-//    // eslint-disable-next-line no-shadow
-//    console.log(event);
-//    document.querySelectorAll('.containerKeyBoard .letter').forEach((el) => {
-//      el.classList.remove('active');
-//    });
-//    const code = el.getAttribute('data');
-//    this.classList.add('active');
-//    if (code === ' ') {
-//      this.classList.add('active');
-//    }
-//    if (code === String.fromCharCode(8743)) {
-//      this.classList.add('active');
-//    }
-//    console.log(code);
-//  };
-//});
 const dataLetters = Array.from(document.querySelectorAll('[data-id]'));
-console.log(dataLetters)
 
-function init2() {
+function init() {
+  // eslint-disable-next-line no-use-before-define
   containerTextArea.addEventListener('keydown', keyDownHandler);
-  //containerTextArea.addEventListener('keyup', keyUpHandler);
+  // eslint-disable-next-line no-use-before-define
+  containerTextArea.addEventListener('keyup', keyUpHandler);
 }
-init2();
+init();
 
 function keyDownHandler(event) {
   event.preventDefault();
-  let letter = dataLetters.find((x) => console.log(x.dataset))
-  console.log(letter)
+  const id = dataLetters.find((x) => x.dataset.id === event.key);
+  const dd = dataLetters.filter((x) => x.dataset.delete === event.key);
+  const dataCode = dataLetters.find((x) => x.dataset.code === event.key);
+  if (id) {
+    id.classList.add('active');
+  }
+  if (dd.length) {
+    dd.forEach((spec) => spec.classList.add('active'));
+    return;
+  }
+  if (dataCode) {
+    dataCode.classList.add('active');
+  }
 }
 
-//function keyUpHandler(event) {
-  
-//}
+function keyUpHandler(event) {
+  event.preventDefault();
+  const id = dataLetters.find((x) => x.dataset.id === event.key);
+  const dd = dataLetters.filter((x) => x.dataset.delete === event.key);
+  const dataCode = dataLetters.find((x) => x.dataset.code === event.key);
+  if (id) {
+    id.classList.remove('active');
+  }
+  if (dd.length) {
+    dd.forEach((spec) => spec.classList.remove('active'));
+    return;
+  }
+  if (dataCode) {
+    dataCode.classList.remove('active');
+  }
+}
