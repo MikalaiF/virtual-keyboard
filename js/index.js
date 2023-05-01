@@ -43,6 +43,26 @@ container1.appendChild(createDiv());
 // eslint-disable-next-line no-unused-vars
 const containerKeyBoard = document.querySelector('.containerKeyBoard');
 // ----------------------containerKeyBoard------------^
+function createText() {
+  const containerText = document.createElement('div');
+  containerText.className = 'containerText';
+  return containerText;
+}
+
+container1.appendChild(createText());
+const containerText = document.querySelector('.containerText');
+containerText.textContent = 'Клавиатура создана в операционной системе macOS';
+// ----------------------containerText------------^
+function createText2() {
+  const containerText2 = document.createElement('div');
+  containerText2.className = 'containerText2';
+  return containerText2;
+}
+
+container1.appendChild(createText2());
+const containerText2 = document.querySelector('.containerText2');
+containerText2.textContent = 'Переключения языка клавиша fn';
+// ----------------------containerText2------------^
 
 // eslint-disable-next-line no-unused-vars
 function createLetter(l) {
